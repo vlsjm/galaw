@@ -1,0 +1,46 @@
+h1 {
+    color: #e3526e;
+}
+
+body{
+    margin: 0;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.container h1{
+    margin: 10px;
+}
+.nav-bar {
+    background-color: #e3526e;
+    padding: 10px 20px;
+}
+
+.nav-bar a{
+    text-decoration: none;
+    color: white;
+    padding: 10px 5px;
+    margin: 0;
+}
+
+.nav-bar a:hover{
+    opacity: 0.6;
+}
+
+.exercise-entry{
+    background-color: #e3526e;
+    padding: 10px;
+    margin: 10px;
+    opacity: 0.6;
+    border-radius: 5px;
+    color: white;
+}
+
+.exercise-entry a{
+    text-decoration: none;
+    color: white;
+}
+
+.exercise-entry:hover{
+    background-color: #e3526e;
+    opacity: 1;
+}

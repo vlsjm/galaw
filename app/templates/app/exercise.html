@@ -1,0 +1,15 @@
+{% extends 'app/base.html' %} {% load static %} {%block content%}
+<div class="container">
+  <h1>Exercises</h1>
+  {% for exercise in exercises %}
+  <div class="exercise-entry">
+    <h3>
+      <a href="{% url 'exercise_detail' exercise.pk %}"
+        >{{ exercise.exercise_name }}</a
+      >
+    </h3>
+    <p>Exercise Type: {{exercise.exercise_type}}</p>
+    <p>Calorie Burn Per Minute: {{exercise.calorie_burn}}</p>
+  </div>
+</div>
+{% endfor %} {% endblock content%}

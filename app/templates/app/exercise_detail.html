@@ -1,0 +1,11 @@
+{% extends 'app/base.html' %} {% load static %} {% block content %}
+<div class="post-entry">
+  <h3>
+    <a href="">{{exercise.exercise_name}}</a>
+  </h3>
+  <p>Exercise Type: {{exercise.exercise_type}}</p>
+  <p>Calorie Burn Per Minute: {{exercise.calorie_burn}}</p>
+</div>
+<a href="{% url 'exercise_update' object.pk %}">+Edit Exercise</a>
+<a href="{% url 'exercise_delete' object.pk %}">+Delete Exercise</a>
+{% endblock content%}
