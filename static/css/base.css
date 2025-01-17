@@ -44,3 +44,12 @@ body{
     background-color: #e3526e;
     opacity: 1;
 }
+
+.add-button a{
+    padding: 10px 15px;
+    background-color: #e3526e;
+    text-decoration: none;
+    margin: 10px;
+    color: white;
+    border-radius: 5px;
+}

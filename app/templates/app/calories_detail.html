@@ -1,0 +1,10 @@
+{% extends 'app/base.html' %} {% load static %} {% block content %}
+<div class="post-entry">
+  <h3>
+    <a href="">{{calories.food_name}}</a>
+  </h3>
+  <p>Calories: {{calories.calorie_count}}</p>
+</div>
+<a href="{% url 'calories_update' object.pk %}">+Edit Item</a>
+<a href="{% url 'calories_delete' object.pk %}">+Delete Item</a>
+{% endblock content%}

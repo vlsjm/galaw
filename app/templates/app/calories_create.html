@@ -1,0 +1,29 @@
+{% extends 'app/base.html' %} {% load static %} {% block content %}
+<h1>Add Item</h1>
+<form action="{% url 'calories_create' %}" method="post">
+  {% csrf_token %}
+  <div>
+    <label for="id_user">User:</label>
+    <select name="user" id="id_user">
+      {% for user in users %}
+      <option value="{{user.pk}}" {% if user.pk == form.user.value %} selected {% endif %}>
+        {{user}}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div>
+    <label for="id_food_name">Item:</label>
+    <input type="text" id="id_food_name" name="food_name" />
+  </div>
+  <div>
+    <label for="id_date">Date:</label>
+    <input type="date" id="id_date" name="date">
+  </div>
+  <div>
+    <label for="id_calorie_count">Calories:</label>
+    <input type="number" id="id_calorie_count" name="calorie_count" />
+  </div>
+  <input type="submit" value="Save" />
+</form>
+{% endblock content %}

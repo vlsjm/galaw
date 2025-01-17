@@ -43,7 +43,13 @@ def save(self, *args, **kwargs):
 class calories(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField()
-    calorie_intake = models.FloatField()
+    food_name = models.CharField(max_length=20)
+    calorie_count = models.FloatField()
+
+    def __str__(self):
+        return self.food_name
+    
+#widget=forms.DateInput(attrs={'type': 'date'}), label="Date"
 
 class weightGoal(models.Model):
     GOAL_TYPES = [

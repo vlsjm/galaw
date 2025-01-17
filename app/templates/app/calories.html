@@ -1,0 +1,34 @@
+{% extends 'app/base.html' %} {% load static %} {%block content%}
+<div class="container">
+  <h1>Calorie Intake</h1>
+  <div class="add-button">
+    <a href="{% url 'calories_create' %}">Add item</a>
+  </div>
+  <hr />
+  <div>
+    <form method="get" action="">
+      <label for="date">Select Date:</label>
+      <input type="date" id="date" name="date" />
+      <button type="submit">Search</button>
+    </form>
+  </div>
+  <hr />
+  <h1>Calorie Intake for {{selected_date}}</h1>
+
+  {% if calories %} {% for calories in calories %}
+  <div class="calorie-entry">
+    <h3>
+      <a href="{% url 'calories_detail' calories.pk %}"
+        >{{calories.food_name}}</a
+      >
+    </h3>
+    <p>Calories: {{calories.calorie_count}}</p>
+  </div>
+  {% endfor %}
+  <hr />
+  <h3>Total Calorie Intake: {{ total_calories }}</h3>
+  {% else %}
+  <p>No entries found</p>
+  {% endif %}
+</div>
+{% endblock content %}
