@@ -1,0 +1,12 @@
+{% extends 'app/base.html' %} {% load static %} {% block content%}
+<h1>Are you sure you want to delete this session?</h1>
+<form action="{% url 'workout_log_delete' object.pk %}" method="post">
+  {% csrf_token %}
+  <p>
+    Workout Session: "{{exercise_progress.exercise_id}} at
+    {{exercise_progress.exercise_date}}"?
+  </p>
+
+  <input type="submit" value="Confirm" />
+</form>
+{% endblock content %}

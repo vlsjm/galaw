@@ -13,6 +13,7 @@ body{
 .nav-bar {
     background-color: #e3526e;
     padding: 10px 20px;
+    display: flex;
 }
 
 .nav-bar a{
@@ -21,6 +22,13 @@ body{
     padding: 10px 5px;
     margin: 0;
 }
+.nav-bar h3{
+    margin: 0; /* Remove default margin */
+    padding: 7px; /* Remove default padding */
+    margin-left: auto; /* Push the h3 to the right */
+    color: white;
+}
+
 
 .nav-bar a:hover{
     opacity: 0.6;
@@ -52,4 +60,9 @@ body{
     margin: 10px;
     color: white;
     border-radius: 5px;
+}
+
+.name-user h3{
+    justify-content: right;
+    color: white;
 }

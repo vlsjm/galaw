@@ -12,7 +12,6 @@ class exercise(models.Model):
         ('balance', 'Balance'),
         ('hiit', 'High-Intensity Interval Training'),
         ('other', 'Others')
-
     ]
     exercise_type = models.CharField(max_length=50, choices=EXERCISE_TYPES)
     calorie_burn = models.FloatField(null=True, blank=True)
@@ -28,17 +27,17 @@ class exercise_progress(models.Model):
     exercise_id = models.ForeignKey(exercise, on_delete=models.CASCADE)
     exercise_date = models.DateTimeField(auto_now_add=True)
     exercise_duration = models.DurationField(null=False, blank=False)
-    calories_burned = models.FloatField(null=False, blank=False)
+    calories_burned = models.FloatField(null=True, blank=True)
+    weight_lifted = models.FloatField(null=True, blank=True)
 
-def save(self, *args, **kwargs):
-   
-        if self.exercise_id and self.exercise_duration:
-            duration_in_minutes = self.exercise_duration.total_seconds() / 60
-            self.calories_burned = duration_in_minutes * self.exercise_id.calorie_burn
-        super().save(*args, **kwargs)
-
-        def __str__(self):
-         return f"{self.user.username} - {self.exercise_id.exercise_name} on {self.exercise_date}"
+    def __str__(self):
+        return self.exercise_id.exercise_name
+    
+    def save(self, *args, **kwargs):
+            calories_per_minute = self.exercise_id.calorie_burn
+            total_minutes = self.exercise_duration.total_seconds() / 60
+            self.calories_burned = self.exercise_id.calorie_burn * total_minutes
+            super().save(*args, **kwargs)
     
 class calories(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

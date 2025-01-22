@@ -15,7 +15,8 @@ SECRET_KEY = 'django-insecure-6yj+ydu0o+@hb2ba__-59)p@wc7uww*y^^l9e!@r+*9hl95f*d
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+LOGIN_REDIRECT_URL = '/home/' 
+LOGOUT_REDIRECT_URL = '/'
 
 # Application definition
 
@@ -46,7 +47,7 @@ ROOT_URLCONF = 'galaw.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ BASE_DIR / 'templates', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,6 +74,7 @@ DATABASES = {
 }
 
 AUTH_USER_MODEL = 'auth.User'
+
 
 
 # Password validation

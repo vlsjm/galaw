@@ -1,0 +1,13 @@
+{% extends 'app/base.html' %} {% load static %} {% block content %}
+<div class="post-entry">
+  <h3>
+    <a href="">{{exercise_progress.exercise_id}}</a>
+  </h3>
+  <p>Date Logged: {{exercise_progress.exercise_date}}</p>
+  <p>Duration: {{exercise_progress.exercise_duration}}</p>
+  <p>Calories Burned: {{exercise_progress.calories_burned}}</p>
+  <p>Weight Lifted: {{exercise_progress.weight_lifted}}</p>
+</div>
+<a href="{% url 'workout_log_update' object.pk %}">+Edit Item</a>
+<a href="{% url 'workout_log_delete' object.pk %}">+Delete Item</a>
+{% endblock content%}

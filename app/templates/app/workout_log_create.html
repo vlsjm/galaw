@@ -1,0 +1,7 @@
+{% extends 'app/base.html' %} {% load static %} {% block content %}
+<h1>Add New Session</h1>
+<form action="{% url 'workout_log_create' %}" method="post">
+  {% csrf_token %} {{form.as_p}}
+  <input type="submit" value="Save" />
+</form>
+{% endblock content %}

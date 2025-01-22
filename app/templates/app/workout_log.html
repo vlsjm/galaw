@@ -1,0 +1,20 @@
+{% extends 'app/base.html' %} {% load static %} {%block content%}
+<div class="container">
+  <h1>Workout Sessions</h1>
+  <div class="add-button">
+    <a href="{% url 'workout_log_create' %}">Add Session</a>
+  </div>
+  {% for exercise_progress in workout_log %}
+  <div class="exercise-entry">
+    <h3>
+      <a href="{% url 'workout_log_detail' exercise_progress.pk %}"
+        >{{ exercise_progress.exercise_id.exercise_name }}</a
+      >
+    </h3>
+    <p>Duration in Minute: {{exercise_progress.exercise_duration}}</p>
+    <p>Weight Lifted: {{exercise_progress.weight_lifted}} kg</p>
+    <p>Calories Burned: {{exercise_progress.calories_burned}} cal</p>
+    <p>Date: {{exercise_progress.exercise_date}}</p>
+  </div>
+</div>
+{% endfor %} {% endblock content%}
