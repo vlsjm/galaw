@@ -7,8 +7,6 @@ from django.urls import reverse_lazy
 from datetime import date
 from django.db.models import Sum
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
-
 
 class HomePageView(LoginRequiredMixin,TemplateView):
     template_name = 'app/home.html'
@@ -149,6 +147,9 @@ class WorkoutLogListView(LoginRequiredMixin,ListView):
     context_object_name = 'workout_log'
     template_name = 'app/workout_log.html'
 
+    def get_queryset(self):
+        return exercise_progress.objects.filter(user=self.request.user)
+
 class WorkoutLogCreateView(LoginRequiredMixin, CreateView):
     model = exercise_progress
     fields = ['exercise_id', 'exercise_duration', 'weight_lifted']
@@ -231,14 +232,12 @@ class HealthProfileDetailView(LoginRequiredMixin, DetailView):
         elif 25 <= bmi < 29.9:
             bmi_category = 'Overweight'
         else:
-            bmi_category = 'Obese'
-            
+            bmi_category = 'Obese'       
         context['rounded_height'] = round(profile.height), 2
-
         context['calculated_bmi'] = bmi
         context['calculated_bmi_category'] = bmi_category
         return context
-            
+
 class HealthProfileUpdateView(LoginRequiredMixin,UpdateView):
     model = HealthProfile
     fields = ['height', 'weight'] 
@@ -266,6 +265,77 @@ class HealthProfileCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
     
 
+class WeightLossDashboardView(LoginRequiredMixin, TemplateView):
+    template_name = 'app/weight_goal.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
 
+        health_profile = HealthProfile.objects.filter(user=user).first()
+        context['current_weight'] = health_profile.weight if health_profile else "Not Set"
+        weight_goal = weightGoal.objects.filter(user=user).order_by('-start_date').first()
+        if weight_goal:
+            context['target_weight'] = weight_goal.target_weight
+            context['daily_calorie_limit'] = self.calculate_daily_calorie_limit(health_profile.weight, weight_goal.target_weight)
+        else:
+            context['target_weight'] = None
+            context['daily_calorie_limit'] = None
+        today = date.today()
+        current_calories = calories.objects.filter(user=user, date=today).aggregate(total_calories=Sum('calorie_count'))['total_calories']
+        context['current_calories'] = current_calories if current_calories else 0
+
+        if weight_goal:
+            context['progress'] = self.get_progress_message(health_profile.weight, weight_goal.target_weight)
+        else:
+            context['progress'] = "No goal set."
+
+        return context
+
+    def calculate_daily_calorie_limit(self, current_weight, target_weight):
+       
+
+        daily_calorie_deficit = 500
+        base_calories = 2000  
+        return max(1200, base_calories - daily_calorie_deficit)  
+
+    def get_progress_message(self, current_weight, target_weight):
+        if current_weight > target_weight:
+            return "You're on track! Keep maintaining your calorie deficit."
+        elif current_weight == target_weight:
+            return "Congratulations! You've reached your goal."
+        else:
+            return "Your weight is below target. Consider maintaining balance."
+    
         
+class WeightGoalListView(LoginRequiredMixin, ListView):
+    model = weightGoal
+    template_name = 'app/weight_goal_list.html'
+    context_object_name = 'weight_goals'
+
+    def get_queryset(self):
+        return weightGoal.objects.filter(user=self.request.user)
+
+
+class WeightGoalCreateView(LoginRequiredMixin, CreateView):
+    model = weightGoal
+    fields = ['goal_type', 'start_date', 'target_weight', 'target_date']
+    template_name = 'app/weight_goal_form.html'
+    success_url = reverse_lazy('weight_goal_list')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user  
+        return super().form_valid(form)
+
+
+class WeightGoalUpdateView(LoginRequiredMixin, UpdateView):
+    model = weightGoal
+    fields = ['goal_type', 'start_date', 'target_weight', 'target_date']
+    template_name = 'app/weight_goal_form.html'
+    success_url = reverse_lazy('weight_goal_list')
+
+
+class WeightGoalDeleteView(LoginRequiredMixin, DeleteView):
+    model = weightGoal
+    template_name = 'app/weight_goal_confirm_delete.html'
+    success_url = reverse_lazy('weight_goal_list')

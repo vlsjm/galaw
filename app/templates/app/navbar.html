@@ -4,9 +4,10 @@
     <a href="{% url 'calories' %}">Track Calories</a>
     <a href="{% url 'exercise' %}">Exercises</a>
     <a href="{% url 'workout' %}">Log Workout</a>
+    <a href="{% url 'weight_loss_dashboard' %}">Weight Goal</a>
     {% if user.is_authenticated %}
     <h3>Hello, {{user.username}}</h3>
-    <a href="{% url 'health_profile' %}">Health Profile </a>
+    <a href="{% url 'health_profile_create' %}">Health Profile </a>
     <form action="{% url 'logout' %}" method="post">
       {% csrf_token %}
       <button type="submit">Logout</button>

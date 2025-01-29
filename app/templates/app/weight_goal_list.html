@@ -1,0 +1,15 @@
+{% extends 'app/base.html' %} {% load static %} {%block content%}
+<h2>My Weight Goals</h2>
+<ul>
+  {% for goal in weight_goals %}
+  <li>
+    <strong>{{ goal.goal_type }}</strong> - Target: {{ goal.target_weight }} kg
+    by {{ goal.target_date }}
+    <a href="{% url 'weight_goal_update' goal.id %}">Edit</a>
+    <a href="{% url 'weight_goal_delete' goal.id %}">Delete</a>
+  </li>
+  {% empty %}
+  <p>No goals set yet.</p>
+  {% endfor %}
+</ul>
+{% endblock content%}

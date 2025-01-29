@@ -1,16 +1,27 @@
-{% extends 'app/base.html' %} {% load static %} {%block content%}
+{% extends 'app/base.html' %} {% load static %} {% block content %}
 <div class="container">
   <h1>Exercises</h1>
-  <div class="add-button">
-    <a href="{% }">New Goal</a>
-  </div>
 
-  {% for weightGoal in weight_goals %}
-  <div class="exercise-entry">
-    <h3>Goal Type: {{weightGoal.goal_type}} ></h3>
-    <p>Target Weight: {{weightGoal.target_weight}}</p>
-    <p>Start Date: {{weightGoal.start_date}}</p>
-    <p>Target Weight: {{weightGoal.target_weight}}</p>
+  <div class="add-button">
+    <a href="{% url 'weight_goal_create' %}">New Goal</a>
   </div>
+  <hr />
+  <h3><a href="{% url 'weight_goal_list' %}">Your Goal</a></h3>
+
+  <h2>Weight Loss Goal</h2>
+  <p>Current Weight: {{ current_weight }} kg</p>
+  {% if target_weight %}
+  <p>Target Weight: {{ target_weight }} kg</p>
+  {% else %}
+  <p>No weight goal set.</p>
+  {% endif %} {% if daily_calorie_limit %}
+  <p>Daily Calorie Limit: {{ daily_calorie_limit }} kcal</p>
+  <p>Total Calories Consumed Today: {{ current_calories }} kcal</p>
+  <p>{{ progress }}</p>
+  {% else %}
+  <p>No calorie goal set. Set a weight loss goal to start tracking.</p>
+  {% endif %}
+
+  <a href="{% url 'calories' %}">Log Today's Meal</a>
 </div>
-{% endfor %} {% endblock content%}
+{% endblock content %}

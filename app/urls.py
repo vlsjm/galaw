@@ -4,7 +4,8 @@ from .views import (HomePageView,ExerciseListView,ExerciseDetailView,
                     CaloriesListView, CaloriesDetailView, CaloriesCreateView,CaloriesDeleteView,
                     CaloriesUpdateView, WorkoutLogListView, WorkoutLogCreateView, WorkoutLogDetailView,
                     WorkoutLogUpdateView, WorkoutLogDeleteView,
-                    HealthProfileDetailView, HealthProfileUpdateView, HealthProfileCreateView,
+                    HealthProfileDetailView, HealthProfileUpdateView, HealthProfileCreateView,WeightLossDashboardView,
+                    WeightGoalCreateView, WeightGoalDeleteView, WeightGoalListView, WeightGoalUpdateView
 )
 from django.contrib.auth.views import LoginView, LogoutView
 
@@ -30,4 +31,9 @@ urlpatterns = [
     path('health_profile/', HealthProfileDetailView.as_view(), name = 'health_profile'),
     path('health_profile/create', HealthProfileCreateView.as_view(), name = 'health_profile_create'),
     path('health_profile/<int:pk>/update', HealthProfileUpdateView.as_view(), name ='health_profile_update'),
+    path('weight_loss/', WeightLossDashboardView.as_view(), name='weight_loss_dashboard'),
+    path('weight_goal/', WeightGoalListView.as_view(), name='weight_goal_list'),
+    path('weight_goal/create/', WeightGoalCreateView.as_view(), name='weight_goal_create'),
+    path('weight_goal/<int:pk>/update/', WeightGoalUpdateView.as_view(), name='weight_goal_update'),
+    path('weight_goal/<int:pk>/delete/', WeightGoalDeleteView.as_view(), name='weight_goal_delete'),
 ]

@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app.apps.AppConfig',
     'galaw',
+    'accounts'
 ]
 
 MIDDLEWARE = [

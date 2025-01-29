@@ -1,5 +1,5 @@
 {% extends 'app/base.html' %} {% load static %} {% block content%}
-<h1>Update Exercise</h1>
+<h1>Create Health Profile</h1>
 <form action="{% url 'health_profile_create' %}" method="post">
   {% csrf_token %}
   <div>
@@ -22,4 +22,8 @@
   </div>
   <input type="submit" value="Save" />
 </form>
+<hr />
+<div class="add-button">
+  <a href="{% url 'health_profile' %}">View Health Profile</a>
+</div>
 {% endblock content %}

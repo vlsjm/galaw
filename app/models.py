@@ -1,7 +1,6 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
-from django.utils import timezone
 
 class exercise(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -67,7 +66,7 @@ class FitnessAnalytics(models.Model):
     weight_change = models.FloatField()
 
 class HealthProfile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     height = models.FloatField(null=False, blank=False, help_text="Height in meters (e.g., 1.80)")
     weight = models.FloatField(null=False, blank=False, help_text="Weight in kilograms (e.g., 65)")
     bmi = models.FloatField(editable=False, null=True)

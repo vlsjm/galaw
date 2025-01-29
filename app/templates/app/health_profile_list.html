@@ -1,0 +1,19 @@
+{% extends 'app/base.html' %} {% load static %} {%block content%}
+<div class="container">
+  <h1>Health Profile VVVV</h1>
+  <div class="add-button">
+    <a href="{}"></a>
+  </div>
+  <h2>Health Profile</h2>
+
+  {% if no_profile_message %}
+  <p>{{ no_profile_message }}</p>
+  <p>
+    <a href="{% url 'health_profile_create' %}">Create your Health Profile</a>
+  </p>
+  {% else %}
+  <p>Height: {{ rounded_height }} meters</p>
+  <p>BMI: {{ calculated_bmi }}</p>
+  <p>BMI Category: {{ calculated_bmi_category }}</p>
+  {% endif %} {% endblock content%}
+</div>
