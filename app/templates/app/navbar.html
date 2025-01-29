@@ -6,6 +6,7 @@
     <a href="{% url 'workout' %}">Log Workout</a>
     {% if user.is_authenticated %}
     <h3>Hello, {{user.username}}</h3>
+    <a href="{% url 'health_profile' %}">Health Profile </a>
     <form action="{% url 'logout' %}" method="post">
       {% csrf_token %}
       <button type="submit">Logout</button>

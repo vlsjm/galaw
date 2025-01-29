@@ -1,0 +1,13 @@
+{% extends 'app/base.html' %} {% load static %} {%block content%}
+<div class="container">
+  <h1>Health Profile</h1>
+  <div class="exercise-entry">
+    <h3>{{profile.user.username}}</h3>
+    <p>Height: {{profile.height|floatformat:2}}</p>
+    <p>Weight: {{profile.weight}}</p>
+    <p>BMI: {{calculated_bmi}}</p>
+    <p>BMI Category: {{calculated_bmi_category}}</p>
+  </div>
+  <a href="{% url 'health_profile_update' object.pk %}">Edit+</a>
+</div>
+{% endblock content%}

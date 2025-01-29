@@ -1,0 +1,25 @@
+{% extends 'app/base.html' %} {% load static %} {% block content%}
+<h1>Update Exercise</h1>
+<form action="{% url 'health_profile_create' %}" method="post">
+  {% csrf_token %}
+  <div>
+    <label for="id_height">Height:</label>
+    <input
+      type="text"
+      id="id_height"
+      name="height"
+      placeholder="Height in meters (e.g., 1.80)"
+    />
+  </div>
+  <div>
+    <label for="id_weight">Weight:</label>
+    <input
+      type="number"
+      id="id_weight"
+      name="weight"
+      placeholder="Weight in kilograms (e.g., 80)"
+    />
+  </div>
+  <input type="submit" value="Save" />
+</form>
+{% endblock content %}

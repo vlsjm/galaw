@@ -1,0 +1,16 @@
+{% extends 'app/base.html' %} {% load static %} {%block content%}
+<div class="container">
+  <h1>Exercises</h1>
+  <div class="add-button">
+    <a href="{% }">New Goal</a>
+  </div>
+
+  {% for weightGoal in weight_goals %}
+  <div class="exercise-entry">
+    <h3>Goal Type: {{weightGoal.goal_type}} ></h3>
+    <p>Target Weight: {{weightGoal.target_weight}}</p>
+    <p>Start Date: {{weightGoal.start_date}}</p>
+    <p>Target Weight: {{weightGoal.target_weight}}</p>
+  </div>
+</div>
+{% endfor %} {% endblock content%}

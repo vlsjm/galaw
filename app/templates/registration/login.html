@@ -1,5 +1,23 @@
 <!-- login.html -->
-<form method="post">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit">Login</button><button type="reset">Clear</button>
+<form action="{% url 'login' %}" method="post">
+  {% csrf_token %}
+  <div>
+    <label for="id_username">Username:</label>
+    <input type="text" id="id_username" name="username" />
+    {% for error in form.username.errors %}
+    <small style="color: red"> {{ error }}</small>
+    {% endfor %}
+  </div>
+  <div>
+    <label for="id_password">Password:</label>
+    <input type="password" id="id_password" name="password" />
+    {% for error in form.password.errors %}
+    <small style="color: red"> {{ error }}</small>
+    {% endfor %}
+  </div>
+  <button type="submit">Login</button>
+  <button type="reset">Clear</button>
+  <div>
+    <p>Don't have an account? <a href="">Register</a></p>
+  </div>
 </form>

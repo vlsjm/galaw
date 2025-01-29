@@ -3,7 +3,9 @@ from .views import (HomePageView,ExerciseListView,ExerciseDetailView,
                     exerciseCreateView,ExerciseUpdateView, ExerciseDeleteView, 
                     CaloriesListView, CaloriesDetailView, CaloriesCreateView,CaloriesDeleteView,
                     CaloriesUpdateView, WorkoutLogListView, WorkoutLogCreateView, WorkoutLogDetailView,
-                    WorkoutLogUpdateView, WorkoutLogDeleteView)
+                    WorkoutLogUpdateView, WorkoutLogDeleteView,
+                    HealthProfileDetailView, HealthProfileUpdateView, HealthProfileCreateView,
+)
 from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
@@ -25,4 +27,7 @@ urlpatterns = [
     path('workout/create', WorkoutLogCreateView.as_view(), name = 'workout_log_create'),
     path('workout/<int:pk>/update', WorkoutLogUpdateView.as_view(), name ='workout_log_update'),
     path('workout/<int:pk>/delete', WorkoutLogDeleteView.as_view(), name ='workout_log_delete'),
+    path('health_profile/', HealthProfileDetailView.as_view(), name = 'health_profile'),
+    path('health_profile/create', HealthProfileCreateView.as_view(), name = 'health_profile_create'),
+    path('health_profile/<int:pk>/update', HealthProfileUpdateView.as_view(), name ='health_profile_update'),
 ]

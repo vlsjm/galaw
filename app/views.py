@@ -2,14 +2,15 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
-from .models import exercise, calories, exercise_progress
+from .models import exercise, calories, exercise_progress, weightGoal, HealthProfile
 from django.urls import reverse_lazy
 from datetime import date
 from django.db.models import Sum
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 
 
-class HomePageView(TemplateView):
+class HomePageView(LoginRequiredMixin,TemplateView):
     template_name = 'app/home.html'
     
 
@@ -41,6 +42,11 @@ class exerciseCreateView(LoginRequiredMixin,CreateView):
 
     def get_queryset(self):
         return exercise.objects.filter(user=self.request.user)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['exercises'] = exercise.EXERCISE_TYPES
+        return context
 
 class ExerciseUpdateView(LoginRequiredMixin,UpdateView):
     model = exercise
@@ -112,11 +118,6 @@ class CaloriesCreateView(LoginRequiredMixin,CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['users'] = User.objects.all()
-        return context
     
     def get_queryset(self):
         return calories.objects.filter(user=self.request.user)
@@ -161,6 +162,20 @@ class WorkoutLogCreateView(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['exercises'] = exercise.objects.all() 
+        return context
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        exercise = form.cleaned_data['exercise_id']
+        exercise_duration = form.cleaned_data['exercise_duration']
+        total_minutes = exercise_duration.total_seconds() / 60
+        calories_burned = exercise.calorie_burn * total_minutes
+        form.instance.calories_burned = calories_burned
+        return super().form_valid(form)
+    
 class WorkoutLogDetailView(LoginRequiredMixin, DetailView):
     model = exercise_progress 
     context_object_name = 'exercise_progress'
@@ -182,6 +197,11 @@ class WorkoutLogUpdateView(LoginRequiredMixin, UpdateView):
     def get_queryset(self):
         return exercise_progress.objects.filter(user=self.request.user)
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['exercises'] = exercise.objects.all() 
+        return context
+    
 class WorkoutLogDeleteView(LoginRequiredMixin, DeleteView):
     model = exercise_progress
     template_name = 'app/workout_log_delete.html'
@@ -189,3 +209,63 @@ class WorkoutLogDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_queryset(self):
         return exercise_progress.objects.filter(user=self.request.user)
+    
+class HealthProfileDetailView(LoginRequiredMixin, DetailView):
+    model = HealthProfile
+    context_object_name = 'profile'
+    template_name = 'app/health_profile.html'
+
+    def get_object(self):
+        return HealthProfile.objects.get(user=self.request.user)
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = self.get_object()
+
+        if profile.height > 0:
+            bmi = round(profile.weight / (profile.height ** 2), 2)
+        if bmi < 18.5:
+            bmi_category = 'Underweight'
+        elif 18.5 <= bmi < 24.9:
+            bmi_category = 'Normal'
+        elif 25 <= bmi < 29.9:
+            bmi_category = 'Overweight'
+        else:
+            bmi_category = 'Obese'
+            
+        context['rounded_height'] = round(profile.height), 2
+
+        context['calculated_bmi'] = bmi
+        context['calculated_bmi_category'] = bmi_category
+        return context
+            
+class HealthProfileUpdateView(LoginRequiredMixin,UpdateView):
+    model = HealthProfile
+    fields = ['height', 'weight'] 
+    template_name = 'app/health_profile_update.html'
+    success_url = reverse_lazy('health_profile')  
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_queryset(self):
+        return HealthProfile.objects.filter(user=self.request.user)
+
+class HealthProfileCreateView(LoginRequiredMixin, CreateView):
+    model = HealthProfile
+    fields = ['height', 'weight']
+    template_name = 'app/health_profile_create.html'
+    success_url = reverse_lazy('health_profile')
+
+    def get_queryset(self):
+        return HealthProfile.objects.filter(user=self.request.user)
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+    
+
+
+
+        

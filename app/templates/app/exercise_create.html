@@ -1,7 +1,27 @@
 {% extends 'app/base.html' %} {% load static %} {% block content %}
 <h1>Create Exercise</h1>
 <form action="{% url 'exercise_create' %}" method="post">
-  {% csrf_token %} {{form.as_p}}
+  {% csrf_token %}
+  <div>
+    <label for="id_exercise_name">Exercise Name:</label>
+    <input type="text" id="id_exercise_name" name="exercise_name" />
+  </div>
+  <div>
+    <label for="id_exercise_type ">Exercise Type:</label>
+    <select name="exercise_type" id="id_EXERCISE_TYPES">
+      {% for value, label in exercises %}
+      <option value = "{{ value }}" 
+      {% if value == form.exercise_type.value %}
+      selected {% endif %}>
+      {{label}}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div>
+    <label for="id_calorie_burn">Calorie Burn:</label>
+    <input type="number" id="id_calorie_burn" name="calorie_burn" />
+  </div>
   <input type="submit" value="Save" />
 </form>
 {% endblock content %}

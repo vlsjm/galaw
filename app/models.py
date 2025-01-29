@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class exercise(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -33,11 +34,6 @@ class exercise_progress(models.Model):
     def __str__(self):
         return self.exercise_id.exercise_name
     
-    def save(self, *args, **kwargs):
-            calories_per_minute = self.exercise_id.calorie_burn
-            total_minutes = self.exercise_duration.total_seconds() / 60
-            self.calories_burned = self.exercise_id.calorie_burn * total_minutes
-            super().save(*args, **kwargs)
     
 class calories(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -47,8 +43,6 @@ class calories(models.Model):
 
     def __str__(self):
         return self.food_name
-    
-#widget=forms.DateInput(attrs={'type': 'date'}), label="Date"
 
 class weightGoal(models.Model):
     GOAL_TYPES = [
@@ -74,15 +68,13 @@ class FitnessAnalytics(models.Model):
 
 class HealthProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    height = models.FloatField()
-    weight = models.FloatField()
-    bmi = models.FloatField()
+    height = models.FloatField(null=False, blank=False, help_text="Height in meters (e.g., 1.80)")
+    weight = models.FloatField(null=False, blank=False, help_text="Weight in kilograms (e.g., 65)")
+    bmi = models.FloatField(editable=False, null=True)
     bmi_classification_type= [
         ('uw','Under Weight'),
         ('hw','Healthy Weight'),
         ('ow', 'Over Weight'),
         ('ob', 'Obesity'),
     ]
-    bmi_type = models.CharField(max_length=20, choices=bmi_classification_type)
-
-
+    bmi_type = models.CharField(max_length=20, choices=bmi_classification_type, editable=False, null=True)

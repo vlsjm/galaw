@@ -1,7 +1,34 @@
 {% extends 'app/base.html' %} {% load static %} {% block content%}
 <h1>Update Exercise</h1>
 <form action="{% url 'exercise_update' object.pk %}" method="post">
-  {% csrf_token %} {{form.as_p}}
+  {% csrf_token %}
+  <div>
+    <label for="id_exercise_name">Exercise Name:</label>
+    <input
+      type="text"
+      id="id_exercise_name"
+      name="exercise_name"
+      value="{{form.exercise_name.value|default_if_none:''}}"
+    />
+  </div>
+  <div>
+    <label for="id_exercise_type">Exercise Type:</label>
+    <input
+      type="text"
+      id="id_exercise_type"
+      name="exercise_type"
+      value="{{form.exercise_type.value|default_if_none:''}}"
+    />
+  </div>
+  <div>
+    <label for="id_calorie_burn">Calorie Burn</label>
+    <input
+      type="number"
+      id="id_calorie_burn"
+      name="calorie_burn"
+      value="{{form.calorie_burn.value|default_if_none:''}}"
+    />
+  </div>
   <input type="submit" value="Update" />
 </form>
 {% endblock content %}

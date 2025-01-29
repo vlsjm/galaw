@@ -18,6 +18,10 @@ ALLOWED_HOSTS = []
 LOGIN_REDIRECT_URL = '/home/' 
 LOGOUT_REDIRECT_URL = '/'
 
+# Logout behavior
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 3600
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,6 +43,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'app.middleware.DisableCacheMiddleware',
 
 ]
 
