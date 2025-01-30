@@ -8,11 +8,10 @@ from .forms import CustomUserCreationForm
 class RegisterCreateView(CreateView):
     model = User
     form_class = CustomUserCreationForm
-    template_name = 'accounts/register.html'  # Your registration template
-    success_url = reverse_lazy('home')  # Redirect after successful registration
+    template_name = 'accounts/register.html' 
+    success_url = reverse_lazy('login')  
 
     def form_valid(self, form):
-        # Save user and log them in
         user = form.save()
-        login(self.request, user)  # Log the user in automatically
+        login(self.request, user)  # Automatically log in the user after registration
         return redirect(self.success_url)

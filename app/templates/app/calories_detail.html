@@ -5,6 +5,10 @@
   </h3>
   <p>Calories: {{calories.calorie_count}}</p>
 </div>
-<a href="{% url 'calories_update' object.pk %}">+Edit Item</a>
-<a href="{% url 'calories_delete' object.pk %}">+Delete Item</a>
+<a href="{% url 'calories_update' object.pk %}"
+  ><i class="fa-solid fa-pen-to-square fa-lg" style="color: #16da61"></i>
+</a>
+<a href="{% url 'calories_delete' object.pk %}"
+  ><i class="fa-solid fa-trash fa-lg" style="color: #d23f0f"></i
+></a>
 {% endblock content%}

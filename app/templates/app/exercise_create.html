@@ -4,7 +4,7 @@
   {% csrf_token %}
   <div>
     <label for="id_exercise_name">Exercise Name:</label>
-    <input type="text" id="id_exercise_name" name="exercise_name" />
+    <input type="text" id="id_exercise_name" name="exercise_name" class="inputFields" />
   </div>
   <div>
     <label for="id_exercise_type ">Exercise Type:</label>
@@ -20,8 +20,8 @@
   </div>
   <div>
     <label for="id_calorie_burn">Calorie Burn:</label>
-    <input type="number" id="id_calorie_burn" name="calorie_burn" />
+    <input type="number" id="id_calorie_burn" name="calorie_burn" placeholder="Per Minute e.g (1.0)" class="inputFields"/>
   </div>
-  <input type="submit" value="Save" />
+  <input type="submit" value="Save" class="submitBtn"/>
 </form>
 {% endblock content %}

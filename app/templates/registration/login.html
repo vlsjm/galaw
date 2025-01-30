@@ -1,22 +1,55 @@
-<form action="{% url 'login' %}" method="post">
-  {% csrf_token %}
-  <div>
-    <label for="id_username">Username:</label>
-    <input type="text" id="id_username" name="username" />
-    {% for error in form.username.errors %}
-    <small style="color: red"> {{ error }}</small>
-    {% endfor %}
-  </div>
-  <div>
-    <label for="id_password">Password:</label>
-    <input type="password" id="id_password" name="password" />
-    {% for error in form.password.errors %}
-    <small style="color: red"> {{ error }}</small>
-    {% endfor %}
-  </div>
-  <button type="submit">Login</button>
-  <button type="reset">Clear</button>
-  <div>
-    <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
-  </div>
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="body-login">
+    {% block content %}
+    <div class="login-container">
+      <h2>Login</h2>
+      <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <div>
+          <label for="id_username">Username:</label>
+          <input
+            type="text"
+            id="id_username"
+            name="username"
+            class="inputAut"
+          />
+          {% for error in form.username.errors %}
+          <small>{{ error }}</small>
+          {% endfor %}
+        </div>
+        <div>
+          <label for="id_password">Password:</label>
+          <input
+            type="password"
+            id="id_password"
+            name="password"
+            class="inputAut"
+          />
+          {% for error in form.password.errors %}
+          <small>{{ error }}</small>
+          {% endfor %}
+        </div>
+        <button type="submit" class="buttonL login-btn">Login</button>
+        <button type="reset" class="buttonL clear-btn">Clear</button>
+      </form>
+      <p>
+        Don't have an account?
+        <a href="{% url 'register' %}" class="registerTxt">Register</a>
+      </p>
+    </div>
+    {% endblock content %}
+  </body>
+</html>

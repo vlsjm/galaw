@@ -1,3 +1,30 @@
 {% extends 'app/base.html' %} {% load static %} {% block content %}
-<h1></h1>
-{% endblock content%}
+<div class="dashboard-container">
+  <h1>Dashboard</h1>
+  <hr />
+
+  <div class="dashboard-cards">
+    <div class="card">
+      <h2>Calorie Overview</h2>
+      <p>
+        <strong>Total Calories Consumed:</strong> {{ total_calories_consumed }}
+        kcal
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Burned Calories Overview</h2>
+      <p>
+        <strong>Total Calories Burned:</strong> {{ total_calories_burned }} kcal
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Sessions Overview</h2>
+      <p>
+        <strong>Total Sessions Completed:</strong> {{total_sessions_completed}}
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock content %}

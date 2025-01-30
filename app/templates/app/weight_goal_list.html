@@ -5,8 +5,12 @@
   <li>
     <strong>{{ goal.goal_type }}</strong> - Target: {{ goal.target_weight }} kg
     by {{ goal.target_date }}
-    <a href="{% url 'weight_goal_update' goal.id %}">Edit</a>
-    <a href="{% url 'weight_goal_delete' goal.id %}">Delete</a>
+    <a href="{% url 'weight_goal_update' goal.id %}"
+      ><i class="fa-solid fa-pen-to-square fa-lg" style="color: #16da61"></i
+    ></a>
+    <a href="{% url 'weight_goal_delete' goal.id %}"
+      ><i class="fa-solid fa-trash fa-lg" style="color: #d23f0f"></i
+    ></a>
   </li>
   {% empty %}
   <p>No goals set yet.</p>

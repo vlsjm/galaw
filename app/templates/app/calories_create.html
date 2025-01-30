@@ -5,16 +5,21 @@
 
   <div>
     <label for="id_food_name">Item:</label>
-    <input type="text" id="id_food_name" name="food_name" />
+    <input type="text" id="id_food_name" name="food_name" class="inputFields" />
   </div>
   <div>
     <label for="id_date">Date:</label>
-    <input type="date" id="id_date" name="date" />
+    <input type="date" id="id_date" name="date" class="inputFields" />
   </div>
   <div>
     <label for="id_calorie_count">Calories:</label>
-    <input type="number" id="id_calorie_count" name="calorie_count" />
+    <input
+      type="number"
+      id="id_calorie_count"
+      name="calorie_count"
+      class="inputFields"
+    />
   </div>
-  <input type="submit" value="Save" />
+  <input type="submit" value="Save" class="submitBtn" />
 </form>
 {% endblock content %}

@@ -1,17 +1,40 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from .models import exercise, calories, exercise_progress, weightGoal, HealthProfile
 from django.urls import reverse_lazy
 from datetime import date
-from django.db.models import Sum
+from django.db.models import Sum, Count, Avg
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 class HomePageView(LoginRequiredMixin,TemplateView):
     template_name = 'app/home.html'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        calorie_stats = calories.objects.filter(user=user).aggregate(
+            total_calories_consumed=Sum('calorie_count')
+        )
 
+        calories_burned = exercise_progress.objects.filter(user=user).aggregate(
+            total_calories_burned=Sum('calories_burned')
+        )
+
+        sessions_completed = exercise_progress.objects.filter(user=user).aggregate(
+            total_sessions_completed=Count('exercise_id')
+        )
+
+        # average_calorie = calories.objects.filter(user=user).values('date').annotate(
+        #      average_calories=Avg('calorie_count'))
+
+        context['total_calories_consumed'] = calorie_stats['total_calories_consumed'] or 0
+        context['total_calories_burned'] = calories_burned['total_calories_burned'] or 0
+        context['total_sessions_completed']=sessions_completed['total_sessions_completed'] or 0
+        # context['average_calories']=average_calorie['average_calories'] or 0
+        return context
+    
 class ExerciseListView(LoginRequiredMixin,ListView):
     model = exercise
     context_object_name = 'exercises'
@@ -165,7 +188,7 @@ class WorkoutLogCreateView(LoginRequiredMixin, CreateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['exercises'] = exercise.objects.all() 
+        context['exercises'] = exercise.objects.filter(user=self.request.user) 
         return context
     
     def form_valid(self, form):
@@ -333,7 +356,6 @@ class WeightGoalUpdateView(LoginRequiredMixin, UpdateView):
     fields = ['goal_type', 'start_date', 'target_weight', 'target_date']
     template_name = 'app/weight_goal_form.html'
     success_url = reverse_lazy('weight_goal_list')
-
 
 class WeightGoalDeleteView(LoginRequiredMixin, DeleteView):
     model = weightGoal
