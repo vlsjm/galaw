@@ -58,13 +58,6 @@ class weightGoal(models.Model):
     def __str__(self):
         return f"{self.goal_type}"
     
-class FitnessAnalytics(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField(auto_now=True)
-    daily_avg_calorie = models.FloatField()
-    weekly_exercise_duration = models.DurationField()
-    weight_change = models.FloatField()
-
 class HealthProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     height = models.FloatField(null=False, blank=False, help_text="Height in meters (e.g., 1.80)")
